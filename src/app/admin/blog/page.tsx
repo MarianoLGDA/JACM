@@ -220,7 +220,7 @@ export default function AdminBlogPage() {
                   </label>
                   <textarea
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-3 py-2 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={formData.excerpt}
                     onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                     placeholder="Si no se especifica, se generará automáticamente"
@@ -233,7 +233,7 @@ export default function AdminBlogPage() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none text-black focus:ring-2 focus:ring-amber-500"
                     value={tagInput}
                     onChange={(e) => handleTagsChange(e.target.value)}
                     placeholder="arte, pintura, técnica"
@@ -293,7 +293,7 @@ export default function AdminBlogPage() {
                     >
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h3 className="font-semibold text-lg mb-2">
+                          <h3 className="font-semibold text-lg text-black mb-2">
                             {post.title}
                             {!post.published && (
                               <span className="ml-2 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">

@@ -53,9 +53,14 @@ export default function Galeria2024Page() {
       
       <div className="min-h-screen w-full py-4 sm:py-8 px-3 sm:px-4">
         {/* Header */}
-        <div className="max-w-6xl mx-auto mb-6 sm:mb-12">
-          <p className="text-2xl sm:text-3xl md:text-4xl text-center text-brand-400 max-w-2xl mx-auto py-6 sm:py-11">
-            2024
+        <div className="max-w-6xl mx-auto -mt-4 sm:mb-8">
+          <p className="text-xl italic sm:text-3xl md:text-4xl text-center text-brand-400 max-w-2xl mx-auto py-4 sm:py-2">
+            {"<"} 2024
+          </p>
+        </div>
+        <div className="max-w-4xl mx-auto -mt-4 sm:mb-12">
+          <p className="text-md lg:text-lg text-center text-brand-400 max-w-2xl mx-auto py-4 sm:py-2">
+            Obras seleccionadas
           </p>
         </div>
         <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">

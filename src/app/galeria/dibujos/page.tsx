@@ -5,36 +5,36 @@ import Image from "next/image";
 const artworks = [
     {
         id: 1,
-        title: "Diásporas",
+        title: "Estudio de Velázquez",
         image: "/dibujo1.jpg",
-        description: "130x230 cm . Óleo sobre lienzo . 2023"
+        description: "A4"
     },
   
     
     {
         id: 4,
-        title: "Escucha mejor",
+        title: "Estudio de mujer",
         image: "/dibujo2.jpg",
-        description: "180x180 cm . Óleo sobre lienzo . 2023"
+        description: "A4"
     },
     
     {
         id: 5,
-        title: "Viejo ascético",
+        title: "Retrato de Johan",
         image: "/dibujo3.jpg",
-        description: "80x120 cm . Óleo sobre lienzo . 2022"
+        description: "A4"
     },
     {
         id: 9,
-        title: "Luz en vacío",
+        title: "Estudio de Ribera",
         image: "/dibujo4.jpg",
-        description: "180x180 cm . Óleo sobre lienzo . 2023"
+        description: "A4"
     },
     {
         id: 10,
-        title: "Marca de nacimiento",
+        title: "Estudio de Tiziano",
         image: "/Tiziano.jpg",
-        description: "145x80 cm . Óleo sobre lienzo . 2022"
+        description: "A4"
     },
   
     
@@ -48,10 +48,15 @@ export default function Galeria2024Page() {
       
       <div className="min-h-screen w-full py-4 sm:py-8 px-3 sm:px-4">
         {/* Header */}
-        <div className="max-w-6xl mx-auto mb-6 sm:mb-12">
-  
-          <p className="text-2xl sm:text-3xl text-center text-brand-400 max-w-2xl mx-auto py-6 sm:py-11">
+       {/* Header */}
+       <div className="max-w-6xl mx-auto -mt-4 sm:mb-8">
+          <p className="text-xl italic sm:text-3xl md:text-4xl text-center text-brand-400 max-w-2xl mx-auto py-4 sm:py-2">
             Dibujos
+          </p>
+        </div>
+        <div className="max-w-4xl mx-auto -mt-4 sm:mb-12">
+          <p className="text-md lg:text-lg text-center text-brand-400 max-w-2xl mx-auto py-4 sm:py-2">
+            Obras seleccionadas
           </p>
         </div>
         <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">

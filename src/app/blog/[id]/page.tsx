@@ -1,4 +1,4 @@
-import { getPostById } from '@/lib/blog-storage'
+import { getPostById } from '@/lib/blog-supabase'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -8,15 +8,15 @@ interface BlogPostPageProps {
   }
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = getPostById(params.id)
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const post = await getPostById(params.id)
 
   if (!post || !post.published) {
     notFound()
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white -mt-16 lg:mt-0 pt-16 lg:pt-0">
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         <div className="max-w-4xl mx-auto">
           {/* Back Button */}

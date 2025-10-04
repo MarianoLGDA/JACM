@@ -62,21 +62,21 @@ const eirArtworks = [
 const shygiArtworks = [
     {
         id: 9,
-        title: "Shygi",
+        title: "Shiyi",
         image: "/chino1.jpg",
-        description: "70x90 cm . Óleo sobre lienzo . 2025"
+        description: "60x65 cm . Óleo sobre lienzo . 2025"
     },
     {
         id: 10,
-        title: "Shygi",
+        title: "Shiyi",
         image: "/chino2.jpg",
-        description: "70x90 cm . Óleo sobre lienzo . 2025"
+        description: "60x65 cm . Óleo sobre lienzo . 2025"
     },
     {
         id: 11,
-        title: "Shygi",
+        title: "Shiyi",
         image: "/chino3.jpg",
-        description: "70x90 cm . Óleo sobre lienzo . 2025"
+        description: "60x65 cm . Óleo sobre lienzo . 2025"
     }
 ];
     
@@ -86,31 +86,93 @@ export default function Galeria2024Page() {
   const [currentSatiroSlide, setCurrentSatiroSlide] = useState(0);
   const [currentEirSlide, setCurrentEirSlide] = useState(0);
   const [currentShygiSlide, setCurrentShygiSlide] = useState(0);
+  
+  // Estados para controlar las transiciones
+  const [isTransitioningSatiro, setIsTransitioningSatiro] = useState(false);
+  const [isTransitioningEir, setIsTransitioningEir] = useState(false);
+  const [isTransitioningShygi, setIsTransitioningShygi] = useState(false);
   // Funciones para carrusel de Sátiro
   const nextSatiroSlide = () => {
-    setCurrentSatiroSlide((prev) => (prev + 1) % satiroArtworks.length);
+    if (isTransitioningSatiro) return;
+    setIsTransitioningSatiro(true);
+    setTimeout(() => {
+      setCurrentSatiroSlide((prev) => (prev + 1) % satiroArtworks.length);
+      setTimeout(() => setIsTransitioningSatiro(false), 50);
+    }, 150);
   };
 
   const prevSatiroSlide = () => {
-    setCurrentSatiroSlide((prev) => (prev - 1 + satiroArtworks.length) % satiroArtworks.length);
+    if (isTransitioningSatiro) return;
+    setIsTransitioningSatiro(true);
+    setTimeout(() => {
+      setCurrentSatiroSlide((prev) => (prev - 1 + satiroArtworks.length) % satiroArtworks.length);
+      setTimeout(() => setIsTransitioningSatiro(false), 50);
+    }, 150);
+  };
+
+  const goToSatiroSlide = (index: number) => {
+    if (isTransitioningSatiro || index === currentSatiroSlide) return;
+    setIsTransitioningSatiro(true);
+    setTimeout(() => {
+      setCurrentSatiroSlide(index);
+      setTimeout(() => setIsTransitioningSatiro(false), 50);
+    }, 150);
   };
 
   // Funciones para carrusel de Eir
   const nextEirSlide = () => {
-    setCurrentEirSlide((prev) => (prev + 1) % eirArtworks.length);
+    if (isTransitioningEir) return;
+    setIsTransitioningEir(true);
+    setTimeout(() => {
+      setCurrentEirSlide((prev) => (prev + 1) % eirArtworks.length);
+      setTimeout(() => setIsTransitioningEir(false), 50);
+    }, 150);
   };
 
   const prevEirSlide = () => {
-    setCurrentEirSlide((prev) => (prev - 1 + eirArtworks.length) % eirArtworks.length);
+    if (isTransitioningEir) return;
+    setIsTransitioningEir(true);
+    setTimeout(() => {
+      setCurrentEirSlide((prev) => (prev - 1 + eirArtworks.length) % eirArtworks.length);
+      setTimeout(() => setIsTransitioningEir(false), 50);
+    }, 150);
+  };
+
+  const goToEirSlide = (index: number) => {
+    if (isTransitioningEir || index === currentEirSlide) return;
+    setIsTransitioningEir(true);
+    setTimeout(() => {
+      setCurrentEirSlide(index);
+      setTimeout(() => setIsTransitioningEir(false), 50);
+    }, 150);
   };
 
   // Funciones para carrusel de Shygi
   const nextShygiSlide = () => {
-    setCurrentShygiSlide((prev) => (prev + 1) % shygiArtworks.length);
+    if (isTransitioningShygi) return;
+    setIsTransitioningShygi(true);
+    setTimeout(() => {
+      setCurrentShygiSlide((prev) => (prev + 1) % shygiArtworks.length);
+      setTimeout(() => setIsTransitioningShygi(false), 50);
+    }, 150);
   };
 
   const prevShygiSlide = () => {
-    setCurrentShygiSlide((prev) => (prev - 1 + shygiArtworks.length) % shygiArtworks.length);
+    if (isTransitioningShygi) return;
+    setIsTransitioningShygi(true);
+    setTimeout(() => {
+      setCurrentShygiSlide((prev) => (prev - 1 + shygiArtworks.length) % shygiArtworks.length);
+      setTimeout(() => setIsTransitioningShygi(false), 50);
+    }, 150);
+  };
+
+  const goToShygiSlide = (index: number) => {
+    if (isTransitioningShygi || index === currentShygiSlide) return;
+    setIsTransitioningShygi(true);
+    setTimeout(() => {
+      setCurrentShygiSlide(index);
+      setTimeout(() => setIsTransitioningShygi(false), 50);
+    }, 150);
   };
 
   return (
@@ -119,12 +181,16 @@ export default function Galeria2024Page() {
       <div className="fixed inset-0 bg-white -z-10"></div>
       
       <div className="min-h-screen w-full py-4 sm:py-8 px-3 sm:px-4">
-        {/* Header */}
-        <div className="max-w-6xl mx-auto mb-6 sm:mb-12">
-          <p className="text-xl sm:text-2xl text-center text-brand-400 max-w-2xl mx-auto py-4 sm:py-0">
+         {/* Header */}
+         <div className="max-w-6xl mx-auto -mt-4 sm:mb-8">
+          <p className="text-xl italic sm:text-3xl md:text-4xl text-center text-brand-400 max-w-2xl mx-auto py-4 sm:py-2">
             2025
           </p>
-
+        </div>
+        <div className="max-w-4xl mx-auto -mt-4 sm:mb-12">
+          <p className="text-md lg:text-lg text-center text-brand-400 max-w-2xl mx-auto py-4 sm:py-2">
+            Obras seleccionadas
+          </p>
         </div>
 
         {/* Carrusel de Sátiros */}
@@ -150,7 +216,9 @@ export default function Galeria2024Page() {
                    src={satiroArtworks[currentSatiroSlide].image} 
                    alt={satiroArtworks[currentSatiroSlide].title} 
                    fill
-                   className="object-contain"
+                   className={`object-contain transition-opacity duration-300 ease-in-out ${
+                     isTransitioningSatiro ? 'opacity-0' : 'opacity-100'
+                   }`}
                  />
               </div>
 
@@ -167,7 +235,9 @@ export default function Galeria2024Page() {
 
             {/* Información de la obra */}
             <div className="text-center mb-4 sm:mb-6">
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center">
+              <div className={`flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center transition-opacity duration-300 ease-in-out ${
+                isTransitioningSatiro ? 'opacity-0' : 'opacity-100'
+              }`}>
                 <p className="text-xs sm:text-sm text-brand-400 font-medium">{satiroArtworks[currentSatiroSlide].title}</p>
                 <p className="hidden sm:inline text-sm text-brand-400">•</p>
                 <p className="text-brand-400 text-xs sm:text-sm">{satiroArtworks[currentSatiroSlide].description}</p>
@@ -180,8 +250,8 @@ export default function Galeria2024Page() {
                 {satiroArtworks.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentSatiroSlide(index)}
-                    className={`w-2 h-2 sm:w-1 sm:h-1 rounded-full transition-colors ${
+                    onClick={() => goToSatiroSlide(index)}
+                    className={`w-2 h-2 sm:w-1 sm:h-1 rounded-full transition-colors duration-300 ${
                       index === currentSatiroSlide ? 'bg-gray-800' : 'bg-gray-300'
                     }`}
                   />
@@ -213,7 +283,9 @@ export default function Galeria2024Page() {
                    src={eirArtworks[currentEirSlide].image} 
                    alt={eirArtworks[currentEirSlide].title} 
                    fill
-                   className="object-contain"
+                   className={`object-contain transition-opacity duration-300 ease-in-out ${
+                     isTransitioningEir ? 'opacity-0' : 'opacity-100'
+                   }`}
                  />
               </div>
 
@@ -230,7 +302,9 @@ export default function Galeria2024Page() {
 
             {/* Información de la obra */}
             <div className="text-center mb-4 sm:mb-6">
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center">
+              <div className={`flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center transition-opacity duration-300 ease-in-out ${
+                isTransitioningEir ? 'opacity-0' : 'opacity-100'
+              }`}>
                 <p className="text-xs sm:text-sm text-brand-400 font-medium">{eirArtworks[currentEirSlide].title}</p>
                 <p className="hidden sm:inline text-sm text-brand-400">•</p>
                 <p className="text-brand-400 text-xs sm:text-sm">{eirArtworks[currentEirSlide].description}</p>
@@ -243,8 +317,8 @@ export default function Galeria2024Page() {
                 {eirArtworks.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentEirSlide(index)}
-                    className={`w-2 h-2 sm:w-1 sm:h-1 rounded-full transition-colors ${
+                    onClick={() => goToEirSlide(index)}
+                    className={`w-2 h-2 sm:w-1 sm:h-1 rounded-full transition-colors duration-300 ${
                       index === currentEirSlide ? 'bg-gray-800' : 'bg-gray-300'
                     }`}
                   />
@@ -276,7 +350,9 @@ export default function Galeria2024Page() {
                    src={shygiArtworks[currentShygiSlide].image} 
                    alt={shygiArtworks[currentShygiSlide].title} 
                    fill
-                   className="object-contain"
+                   className={`object-contain transition-opacity duration-300 ease-in-out ${
+                     isTransitioningShygi ? 'opacity-0' : 'opacity-100'
+                   }`}
                  />
               </div>
 
@@ -293,7 +369,9 @@ export default function Galeria2024Page() {
 
             {/* Información de la obra */}
             <div className="text-center mb-4 sm:mb-6">
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center">
+              <div className={`flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center transition-opacity duration-300 ease-in-out ${
+                isTransitioningShygi ? 'opacity-0' : 'opacity-100'
+              }`}>
                 <p className="text-xs sm:text-sm text-brand-400 font-medium">{shygiArtworks[currentShygiSlide].title}</p>
                 <p className="hidden sm:inline text-sm text-brand-400">•</p>
                 <p className="text-brand-400 text-xs sm:text-sm">{shygiArtworks[currentShygiSlide].description}</p>
@@ -306,8 +384,8 @@ export default function Galeria2024Page() {
                 {shygiArtworks.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentShygiSlide(index)}
-                    className={`w-2 h-2 sm:w-1 sm:h-1 rounded-full transition-colors ${
+                    onClick={() => goToShygiSlide(index)}
+                    className={`w-2 h-2 sm:w-1 sm:h-1 rounded-full transition-colors duration-300 ${
                       index === currentShygiSlide ? 'bg-gray-800' : 'bg-gray-300'
                     }`}
                   />

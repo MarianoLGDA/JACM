@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { getAllPosts, getPublishedPosts, createPost } from '@/lib/blog-storage'
+import { getAllPosts, getPublishedPosts, createPost } from '@/lib/blog-supabase'
 import { CreatePostData } from '@/types/blog'
 
 // GET - Obtener todos los posts (públicos) o todos (si está autenticado)
@@ -15,10 +15,10 @@ export async function GET(request: NextRequest) {
     
     if (session && includeUnpublished) {
       // Usuario autenticado puede ver todos los posts
-      posts = getAllPosts()
+      posts = await getAllPosts()
     } else {
       // Usuarios no autenticados solo ven posts publicados
-      posts = getPublishedPosts()
+      posts = await getPublishedPosts()
     }
 
     return NextResponse.json({ posts })
@@ -46,6 +46,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { title, content, excerpt, published, tags }: CreatePostData = body
 
+    console.log('📝 Creating post with data:', { title, published, tags })
+
     // Validación básica
     if (!title || !content) {
       return NextResponse.json(
@@ -54,7 +56,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const newPost = createPost({
+    const newPost = await createPost({
       title,
       content,
       excerpt: excerpt || content.substring(0, 150) + '...',

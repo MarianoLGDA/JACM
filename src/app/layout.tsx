@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
-import { EB_Garamond } from 'next/font/google'
+import { Cormorant_Garamond } from 'next/font/google'
 import './globals.css'
 import SidebarNav from '@/components/SidebarNav'
 import { SessionProvider } from '@/components/SessionProvider'
 
-const garamond = EB_Garamond({ 
+const cormorantGaramond = Cormorant_Garamond({ 
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700'],
   style: ['normal', 'italic']
 })
 
@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={garamond.className}>
+      <body className={cormorantGaramond.className}>
         <SessionProvider>
           <div className="min-h-screen">
             <SidebarNav />

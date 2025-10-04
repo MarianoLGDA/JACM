@@ -18,8 +18,9 @@ export default function SidebarNav() {
   }, [isInGallery])
 
   const navigation = [
-    { name: 'Sobre mí', href: '/about' },
     { name: 'Cartas', href: '/blog' },
+    { name: 'Sobre mí', href: '/about' },
+    { name: 'Contacto', href: '/contacto' },
   ]
 
   const galleryItems = [
@@ -31,10 +32,10 @@ export default function SidebarNav() {
   return (
     <>
       {/* Mobile menu button */}
-      <div className={`lg:hidden fixed top-4 z-50 transition-all duration-300 ${isOpen ? 'left-72' : 'left-4'}`}>
+      <div className={`lg:hidden bg-transparent fixed top-4 z-50 transition-all duration-300 ${isOpen ? 'left-72' : 'left-4'}`}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-white p-3 rounded-md shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+          className="bg-transparent p-3  shadow-lg  "
           aria-label={isOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
         >
           <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,7 +50,7 @@ export default function SidebarNav() {
 
       {/* Sidebar */}
       <nav className={`
-        fixed inset-y-0 left-0 z-40 w-64 border-r bg-white border-brand-400 transform transition-transform duration-300 ease-in-out
+        fixed inset-y-0 left-0 z-40 w-64 border-r bg-white lg:bg-transparent border-brand-400 transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="flex flex-col h-full">
@@ -58,7 +59,7 @@ export default function SidebarNav() {
             <Link 
               href="/"
               onClick={() => setIsOpen(false)}
-              className={`text-lg sm:text-xl font-light transition-colors duration-200 ${
+              className={`text-2xl sm:text-2xl font-light transition-colors duration-200 ${
                 pathname === '/' ? 'text-gray-500 font-medium' : 'text-gray-400 hover:text-gray-500'
               }`}
             >
@@ -69,34 +70,15 @@ export default function SidebarNav() {
           {/* Navigation */}
           <div className="flex-1 px-4 sm:px-6 py-6 sm:py-8 overflow-y-auto">
             <ul className="space-y-4 sm:space-y-6">
-              {/* Navegación principal */}
-              {navigation.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className={`
-                      block text-base sm:text-lg transition-colors duration-200 py-1
-                      ${pathname === item.href 
-                        ? 'text-gray-500 font-medium' 
-                        : 'text-gray-400 hover:text-gray-500'
-                      }
-                    `}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-              
               {/* Menú desplegable de Galería */}
               <li>
                 <button
                   onClick={() => setIsGalleryOpen(!isGalleryOpen)}
                   className={`
-                    flex items-center justify-between w-full text-base sm:text-lg transition-colors duration-200 py-1
+                    flex items-center justify-between w-full text-xl sm:text-xl transition-colors duration-200 py-1
                     ${galleryItems.some(item => pathname === item.href)
-                      ? 'text-gray-500 font-medium' 
-                      : 'text-gray-400 hover:text-gray-500'
+                      ? 'text-brand-400 font-medium' 
+                      : 'text-brand-400 hover:text-brand-400'
                     }
                   `}
                 >
@@ -119,10 +101,10 @@ export default function SidebarNav() {
                       href={item.href}
                       onClick={() => setIsOpen(false)}
                       className={`
-                        block text-sm sm:text-base transition-colors duration-200 py-1
+                        block text-xl sm:text-xl transition-colors duration-200 py-1
                         ${pathname === item.href 
-                          ? 'text-gray-900 font-medium' 
-                          : 'text-gray-500 hover:text-gray-700'
+                          ? 'text-brand-400 font-medium' 
+                          : 'text-brand-400 hover:text-brand-400'
                         }
                       `}
                     >
@@ -131,6 +113,25 @@ export default function SidebarNav() {
                   ))}
                 </div>
               </li>
+              
+              {/* Navegación principal */}
+              {navigation.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`
+                      block text-xl sm:text-xl transition-colors duration-200 py-1
+                      ${pathname === item.href 
+                        ? 'text-gray-500 font-medium' 
+                        : 'text-gray-400 hover:text-gray-500'
+                      }
+                    `}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

@@ -1,8 +1,8 @@
-import { getPublishedPosts } from '@/lib/blog-storage'
+import { getPublishedPosts } from '@/lib/blog-supabase'
 import Link from 'next/link'
 
-export default function BlogPage() {
-  const posts = getPublishedPosts()
+export default async function BlogPage() {
+  const posts = await getPublishedPosts()
 
   return (
     <>
@@ -13,19 +13,22 @@ export default function BlogPage() {
         <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-8 sm:mb-12">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
-              Blog Artístico
-            </h1>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-              Reflexiones, técnicas y experiencias en el mundo del arte y la pintura
-            </p>
-          </div>
+        {/* Header */}
+        <div className="max-w-6xl mx-auto -mt-4 sm:mb-8">
+          <p className="text-xl italic sm:text-3xl md:text-4xl text-center text-brand-400 max-w-2xl mx-auto py-4 sm:py-2">
+            Cartas
+          </p>
+        </div>
+        <div className="max-w-4xl mx-auto -mt-4 sm:mb-12">
+          <p className="text-md lg:text-lg text-center text-brand-400 max-w-2xl mx-auto py-4 sm:py-2">
+            Reflexiones, pensamientos y palabras...
+          </p>
+        </div>
 
           {/* Posts */}
           {posts.length === 0 ? (
             <div className="text-center py-8 sm:py-12">
-              <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+              <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-3 sm:mb-4">
                   Próximamente...
                 </h2>
@@ -36,15 +39,15 @@ export default function BlogPage() {
               </div>
             </div>
           ) : (
-            <div className="space-y-6 sm:space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {posts.map((post) => (
                 <article
                   key={post.id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                  className="bg-white  shadow-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full"
                 >
-                  <div className="p-4 sm:p-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-1 sm:space-y-0">
+                  <div className="p-4 sm:p-6 flex flex-col h-full">
+                    <div className="flex flex-col mb-3 sm:mb-4">
+                      <div className="flex flex-col space-y-1">
                         <span className="text-xs sm:text-sm text-gray-500">
                           {new Date(post.createdAt).toLocaleDateString('es-ES', {
                             year: 'numeric',
@@ -52,29 +55,28 @@ export default function BlogPage() {
                             day: 'numeric'
                           })}
                         </span>
-                        <span className="hidden sm:inline text-gray-300">•</span>
                         <span className="text-xs sm:text-sm text-gray-500">
                           {post.author}
                         </span>
                       </div>
                     </div>
 
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 hover:text-amber-600 transition-colors">
+                    <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 hover:text-amber-600 transition-colors">
                       <Link href={`/blog/${post.id}`}>
                         {post.title}
                       </Link>
                     </h2>
 
-                    <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 leading-relaxed">
+                    <p className="text-sm text-gray-600 mb-3 sm:mb-4 leading-relaxed flex-grow">
                       {post.excerpt}
                     </p>
 
                     {post.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+                      <div className="flex flex-wrap gap-1.5 mb-3 sm:mb-4">
                         {post.tags.map((tag, index) => (
                           <span
                             key={index}
-                            className="px-2 sm:px-3 py-1 bg-amber-100 text-amber-800 text-xs sm:text-sm rounded-full"
+                            className="px-2 py-1 bg-transparent border border-amber-800 text-amber-800 text-xs rounded-full"
                           >
                             {tag}
                           </span>
@@ -84,7 +86,7 @@ export default function BlogPage() {
 
                     <Link
                       href={`/blog/${post.id}`}
-                      className="inline-flex items-center text-amber-600 hover:text-amber-700 font-medium text-sm sm:text-base"
+                      className="inline-flex items-center text-amber-600 hover:text-amber-700 font-medium text-sm mt-auto"
                     >
                       Leer más
                       <svg

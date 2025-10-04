@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { getPostById, updatePost, deletePost } from '@/lib/blog-storage'
+import { getPostById, updatePost, deletePost } from '@/lib/blog-supabase'
 
 // GET - Obtener un post por ID
 export async function GET(
@@ -9,7 +9,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const post = getPostById(params.id)
+    const post = await getPostById(params.id)
 
     if (!post) {
       return NextResponse.json(
@@ -57,7 +57,7 @@ export async function PUT(
     const body = await request.json()
     const { title, content, excerpt, published, tags } = body
 
-    const updatedPost = updatePost(params.id, {
+    const updatedPost = await updatePost(params.id, {
       title,
       content,
       excerpt,
@@ -97,7 +97,7 @@ export async function DELETE(
   }
 
   try {
-    const deleted = deletePost(params.id)
+    const deleted = await deletePost(params.id)
 
     if (!deleted) {
       return NextResponse.json(
