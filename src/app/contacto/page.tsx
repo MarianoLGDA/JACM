@@ -167,10 +167,10 @@ export default function ContactoPage() {
                   <h3 className="font-medium text-gray-900 mb-2">Email</h3>
                   <p className="text-gray-700">
                     <a 
-                      href="mailto:joseantonio@coronamanon.com" 
+                      href="mailto:joseantoniocoronamanon@gmail.com" 
                       className="hover:text-gray-900 transition-colors"
                     >
-                      joseantonio@coronamanon.com
+                      joseantoniocoronamanon@gmail.com
                     </a>
                   </p>
                 </div>
@@ -185,12 +185,22 @@ export default function ContactoPage() {
                   <div className="space-y-2">
                     <p className="text-gray-700">
                       <a 
-                        href="https://instagram.com/joseantonio.coronamanon" 
+                        href="https://www.instagram.com/joseacoronam/" 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="hover:text-gray-900 transition-colors"
+                        className="hover:text-gray-900 transition-colors block"
                       >
-                        Instagram: @joseantonio.coronamanon
+                        Instagram: @joseacoronam
+                      </a>
+                    </p>
+                    <p className="text-gray-700">
+                      <a 
+                        href="https://x.com/joscoronam" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="hover:text-gray-900 transition-colors block"
+                      >
+                        X: @josecoronam
                       </a>
                     </p>
                   </div>
@@ -217,11 +227,11 @@ export default function ContactoPage() {
             <div className="mt-8">
               <div className="relative">
                 <Image 
-                  src="/eir.jpg" 
+                  src="/IMG_9898.jpg" 
                   alt="Obra de José Antonio Corona Mañón" 
                   width={400} 
                   height={500} 
-                  className="w-full h-auto rounded-lg shadow-lg"
+                  className="w-full h-auto shadow-lg"
                 />
               </div>
             </div>
@@ -229,29 +239,6 @@ export default function ContactoPage() {
         </div>
 
         {/* Sección adicional sobre el proceso */}
-        <div className="mt-16 pt-12 border-t border-gray-200">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-              Sobre el proceso de trabajo
-            </h2>
-            <div className="prose prose-gray max-w-none">
-              <p className="text-gray-700 mb-4">
-                Mi práctica artística se centra en la pintura al óleo y la exploración de la condición humana 
-                a través del arte. Cada obra es resultado de un proceso reflexivo que combina técnica clásica 
-                con una visión contemporánea.
-              </p>
-              <p className="text-gray-700 mb-4">
-                Para comisiones, trabajo de cerca con el cliente para entender su visión y crear una obra 
-                que resuene tanto con sus expectativas como con mi propuesta artística. El proceso incluye 
-                bocetos preliminares, estudios de color y actualizaciones regulares durante la ejecución.
-              </p>
-              <p className="text-gray-700">
-                Si estás interesado en adquirir una obra existente o encargar una nueva, 
-                no dudes en contactarme para discutir las posibilidades.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </>
   );
