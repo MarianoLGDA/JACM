@@ -13,6 +13,11 @@ const cormorantGaramond = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: 'José Antonio Corona Mañón - Pintor',
   description: 'Portfolio artístico de José Antonio Corona Mañón, pintor contemporáneo especializado en óleo sobre lienzo',
+  icons: {
+    icon: '/jacmlogo.png',
+    shortcut: '/jacmlogo.png',
+    apple: '/jacmlogo.png',
+  },
 }
 
 export default function RootLayout({

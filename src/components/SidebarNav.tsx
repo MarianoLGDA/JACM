@@ -21,6 +21,7 @@ export default function SidebarNav() {
     { name: 'Cartas', href: '/blog' },
     { name: 'Sobre mí', href: '/about' },
     { name: 'Contacto', href: '/contacto' },
+    { name: 'Shop', href: '/tienda' },
   ]
 
   const galleryItems = [
@@ -63,7 +64,7 @@ export default function SidebarNav() {
                 pathname === '/' ? 'text-gray-500 font-medium' : 'text-gray-400 hover:text-gray-500'
               }`}
             >
-              José Corona
+              JC .
             </Link>
           </div>
 
