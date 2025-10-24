@@ -46,7 +46,7 @@ export default function TiendaVerPage({ params }: { params: { id: string } }) {
                                     }}
                                 />
                                 {isZoomed && (
-                                    <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                                    <div className="absolute inset-0  flex items-center justify-center">
                            
                                     </div>
                                 )}

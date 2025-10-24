@@ -7,6 +7,7 @@ import { products } from "@/data/products"
 export default function TiendaPage() {
     const [hoveredProduct, setHoveredProduct] = useState<number | null>(null)
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+    
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, productId: number) => {
         if (hoveredProduct === productId) {
