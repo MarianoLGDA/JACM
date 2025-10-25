@@ -4,6 +4,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { products } from "@/data/products";
 import Image from "next/image";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 
 interface FormData {
     nombre: string;
@@ -86,7 +87,61 @@ export default function CompraPage() {
         setIsLoading(true);
         
         try {
-            // Aquí se integraría con Stripe
+            // Primero, guardar el pedido en Supabase
+            const { data: orderData, error: orderError } = await supabase
+                .from('orders')
+                .insert({
+                    product_id: product?.id || 0,
+                    product_name: product?.name || '',
+                    product_price: precioNumerico,
+                    quantity: quantity,
+                    customer_nombre: formData.nombre,
+                    customer_apellido: formData.apellido,
+                    customer_email: formData.email,
+                    customer_telefono: formData.telefono,
+                    direccion: formData.direccion,
+                    ciudad: formData.ciudad,
+                    codigo_postal: formData.codigoPostal,
+                    pais: formData.pais,
+                    metodo_envio: formData.metodoEnvio,
+                    costo_envio: envio,
+                    subtotal: subtotal,
+                    total: total,
+                    status: 'pending',
+                    comentarios: formData.comentarios || null
+                })
+                .select()
+                .single();
+
+            if (orderError) {
+                console.error('Error al guardar el pedido:', orderError);
+                console.error('Datos que se intentaron insertar:', {
+                    product_id: product?.id || 0,
+                    product_name: product?.name || '',
+                    product_price: precioNumerico,
+                    quantity: quantity,
+                    customer_nombre: formData.nombre,
+                    customer_apellido: formData.apellido,
+                    customer_email: formData.email,
+                    customer_telefono: formData.telefono,
+                    direccion: formData.direccion,
+                    ciudad: formData.ciudad,
+                    codigo_postal: formData.codigoPostal,
+                    pais: formData.pais,
+                    metodo_envio: formData.metodoEnvio,
+                    costo_envio: envio,
+                    subtotal: subtotal,
+                    total: total,
+                    status: 'pending',
+                    comentarios: formData.comentarios || null
+                });
+                alert(`Error al guardar el pedido: ${orderError.message}`);
+                return;
+            }
+
+            console.log('Pedido guardado con ID:', orderData.id);
+
+            // Ahora crear la sesión de Stripe con el ID del pedido
             const response = await fetch('/api/stripe/checkout', {
                 method: 'POST',
                 headers: {
@@ -95,7 +150,8 @@ export default function CompraPage() {
                 body: JSON.stringify({
                     productId: product?.id,
                     quantity: quantity,
-                    customerInfo: formData
+                    customerInfo: formData,
+                    orderId: orderData.id // Pasar el ID del pedido a Stripe
                 }),
             });
 
@@ -127,7 +183,7 @@ export default function CompraPage() {
 
     const precioNumerico = parseFloat(product.price.replace(/[^0-9.]/g, ''));
     const subtotal = precioNumerico * quantity;
-    const envio = formData.metodoEnvio === 'express' ? 200 : 150;
+    const envio = formData.metodoEnvio === 'express' ? 1 : 2;
     const total = subtotal + envio;
 
     return (
@@ -305,7 +361,7 @@ export default function CompraPage() {
                                             onChange={handleInputChange}
                                             className="mr-2 text-black"
                                         />
-                                        <span>Envío estándar (3-4 semanas) - $150 MXN</span>
+                                        <span>Envío estándar (3-4 semanas) - $1 MXN</span>
                                     </label>
                                     <label className="flex items-center text-black">
                                         <input
@@ -316,7 +372,7 @@ export default function CompraPage() {
                                             onChange={handleInputChange}
                                             className="mr-2"
                                         />
-                                        <span>Envío express (1-2 semanas) - $200 MXN</span>
+                                        <span>Envío express (1-2 semanas) - $1 MXN</span>
                                     </label>
                                 </div>
                             </div>

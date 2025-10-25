@@ -4,7 +4,7 @@ import { products } from '@/data/products';
 
 export async function POST(request: NextRequest) {
   try {
-    const { productId, quantity, customerInfo } = await request.json();
+    const { productId, quantity, customerInfo, orderId } = await request.json();
 
     // Buscar el producto
     const product = products.find(p => p.id === productId);
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
             product_data: {
               name: product.name,
               description: product.description,
-              images: [`${process.env.NEXT_PUBLIC_APP_URL}${product.image}`],
+              images: [`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'}${product.image}`],
             },
             unit_amount: unitAmount,
           },
@@ -38,13 +38,14 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/tienda/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/tienda/comprar/${productId}`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'}/tienda/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'}/tienda/comprar/${productId}`,
       customer_email: customerInfo.email,
       shipping_address_collection: {
         allowed_countries: ['MX', 'US', 'CA', 'ES'],
       },
       metadata: {
+        orderId: orderId,
         productId: productId.toString(),
         quantity: quantity.toString(),
         customerName: `${customerInfo.nombre} ${customerInfo.apellido}`,
@@ -57,7 +58,7 @@ export async function POST(request: NextRequest) {
           shipping_rate_data: {
             type: 'fixed_amount',
             fixed_amount: {
-              amount: 15000, // $150 MXN en centavos
+              amount: 1000, // $1 MXN en centavos
               currency: 'mxn',
             },
             display_name: 'Envío estándar',
