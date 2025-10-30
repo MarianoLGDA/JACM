@@ -7,6 +7,7 @@ import { products } from "@/data/products"
 export default function TiendaPage() {
     const [hoveredProduct, setHoveredProduct] = useState<number | null>(null)
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+    const soldOutProducts = products.filter(p => (p.quantity ?? 0) < 1).map(p => p.id)
     
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, productId: number) => {
@@ -51,9 +52,14 @@ export default function TiendaPage() {
                         <div className="flex flex-col items-center justify-center py-4">
                             <p className="text-2xl text-gray-500 text-center">{product.name}</p>
                             <p className="text-2xl text-gray-500 text-center">{product.price}</p>
-                            <Link href={`/tienda/ver/${product.id}`}>
-                                <button className="bg-transparent border border-black hover:bg-red-800 hover:text-white transition-colors duration-300 text-black px-4 py-2 mt-2">Comprar</button>
-                            </Link>
+                            {soldOutProducts.includes(product.id) ? (
+                                <p className="text-2xl text-gray-500 text-center">Sold Out</p>
+                            ) : (
+                                <Link href={`/tienda/ver/${product.id}`}>
+                                    <button className="bg-transparent border border-black hover:bg-red-800 hover:text-white transition-colors duration-300 text-black px-4 py-2 mt-2">Comprar</button>
+                                </Link>
+                            )}
+
                         </div>
                     </div>
                 ))}

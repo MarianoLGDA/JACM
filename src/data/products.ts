@@ -1,3 +1,13 @@
+import { supabase } from "@/lib/supabase";
+export const getQuantity = async (productId: number) => {
+    const { data, error } = await supabase.from('product_inventory').select('quantity').eq('product_id', productId).single();
+    if (error) {
+        console.error('Error fetching quantity:', error);
+        return 0;
+    }
+    return data.quantity;
+}
+
 export const products = [
     {
         id: 1,
@@ -109,4 +119,37 @@ export type Product = {
     envio?: string
     paquete?: string
     costo_envio?: string
+}
+
+// Helpers para obtener inventario en vivo desde Supabase y fusionarlo con el catálogo estático
+
+type InventoryRow = { product_id: number; quantity: number }
+
+export async function fetchInventoryMap(): Promise<Record<number, number>> {
+    const { data, error } = await supabase
+        .from('product_inventory')
+        .select('product_id, quantity')
+
+    if (error || !data) return {}
+
+    const map: Record<number, number> = {}
+    for (const row of data as InventoryRow[]) {
+        map[row.product_id] = row.quantity
+    }
+    return map
+}
+
+export async function getProductsWithInventory(): Promise<Product[]> {
+    const inventory = await fetchInventoryMap()
+    return products.map(p => ({
+        ...p,
+        quantity: inventory[p.id] ?? p.quantity ?? 0,
+    }))
+}
+
+export async function getProductByIdWithInventory(id: number): Promise<Product | undefined> {
+    const inventory = await fetchInventoryMap()
+    const base = products.find(p => p.id === id)
+    if (!base) return undefined
+    return { ...base, quantity: inventory[id] ?? base.quantity ?? 0 }
 }

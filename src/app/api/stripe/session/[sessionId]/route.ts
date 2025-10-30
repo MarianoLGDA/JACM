@@ -12,6 +12,8 @@ export async function GET(
     // Si el pago está completado, registrar en tabla de confirmaciones
     const paymentStatus = session.payment_status;
     const orderId = (session.metadata as any)?.orderId as string | undefined;
+    const productId = parseInt(((session.metadata as any)?.productId as string) || '0', 10);
+    const qty = parseInt(((session.metadata as any)?.quantity as string) || '1', 10);
     if (paymentStatus === 'paid' && orderId) {
       // Insertar/asegurar registro en la tabla 'orders_paid' con PK id = orderId
       const { error } = await supabase
@@ -20,6 +22,26 @@ export async function GET(
 
       if (error) {
         console.error('Error inserting orders_paid:', error);
+      }
+
+      // Actualizar status del pedido
+      const { error: orderUpdateError } = await supabase
+        .from('orders')
+        .update({ status: 'paid', stripe_session_id: session.id, stripe_payment_intent_id: (session.payment_intent as any)?.id || null })
+        .eq('id', orderId);
+      if (orderUpdateError) {
+        console.error('Error updating order status:', orderUpdateError);
+      }
+
+      // Decrementar inventario del producto si hay productId y qty válidos
+      if (productId > 0 && qty > 0) {
+        const { error: inventoryError } = await supabase.rpc('decrement_product_quantity', {
+          p_product_id: productId,
+          p_qty: qty,
+        });
+        if (inventoryError) {
+          console.error('Error decrementing product inventory:', inventoryError);
+        }
       }
     }
     
