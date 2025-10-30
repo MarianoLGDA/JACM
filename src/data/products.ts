@@ -89,19 +89,7 @@ export const products = [
         paquete: "• Esta obra se envía enrollada en un tubo de cartón para su mayor protección.",
         costo_envio: "• (El costo de envío no está incluido en el precio).",
     },
-    {
-        id: 7,
-        name: "Prueba de Stripe",
-        image: "/Tiziano.jpg",
-        price: "$10.00 MXN",
-        quantity: 1,
-        description: "Pastel sobre papel",
-        size: "A4",
-        autenticidad:"• Esta obra incluye un Certificado de Autenticidad.",
-        envio: "• Envíos internacionales. (Permitir un período de hasta 3 semanas para empaquetado y manejo).",
-        paquete: "• Esta obra se envía enrollada en un tubo de cartón para su mayor protección.",
-        costo_envio: "• (El costo de envío no está incluido en el precio).",
-    }
+
 
 ]
 
