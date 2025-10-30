@@ -1,10 +1,12 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { retrieveCheckoutSession } from '@/lib/stripe';
 
-export default function SuccessPage() {
+export const dynamic = 'force-dynamic'
+
+function SuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
   const [session, setSession] = useState<any>(null);
@@ -128,4 +130,12 @@ export default function SuccessPage() {
       </div>
     </div>
   );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen w-full py-4 sm:py-8 px-3 sm:px-4 bg-white flex items-center justify-center"><div className="text-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div><p className="text-gray-600">Cargando...</p></div></div>}>
+      <SuccessContent />
+    </Suspense>
+  )
 }
