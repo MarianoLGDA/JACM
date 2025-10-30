@@ -29,7 +29,9 @@ export const createCheckoutSession = async (
 
 // Función para recuperar una sesión de checkout
 export const retrieveCheckoutSession = async (sessionId: string) => {
-  return await stripe.checkout.sessions.retrieve(sessionId);
+  return await stripe.checkout.sessions.retrieve(sessionId, {
+    expand: ['line_items', 'customer', 'payment_intent'],
+  });
 };
 
 // Función para crear un producto

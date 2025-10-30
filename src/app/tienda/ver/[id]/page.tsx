@@ -54,11 +54,11 @@ export default function TiendaVerPage({ params }: { params: { id: string } }) {
                         </div>
                         
                         {/* Información del producto del lado derecho */}
-                        <div className="flex flex-col items-end text-left space-y-4">
+                        <div className="flex flex-col items-start text-left space-y-4 justify-start">
                             <div className="text-left">
-                                <h2 className="text-3xl font-bold text-black">{product.name}</h2>
-                                <p className="text-lg text-gray-600 py-2">{product.description}</p>
-                                <p className="text-lg text-gray-600 py-2">Dimensiones: {product.size}</p>
+                                <p className="text-3xl font-bold text-black text-left">{product.name}</p>
+                                <p className="text-lg text-gray-600 py-2 text-left">{product.description}</p>
+                                <p className="text-lg text-gray-600 py-2 text-left">Dimensiones: {product.size}</p>
                                 {/* <p className="text-lg text-gray-600 py-2">Obras disponibles: {product.quantity}</p>
                                 <p className="text-lg text-gray-600 py-2">{product.firma}</p> */}
                                 
@@ -92,9 +92,6 @@ export default function TiendaVerPage({ params }: { params: { id: string } }) {
                                 </p> */}
                                 
                                 <div className="flex space-x-3 mt-4">
-                                    <button className="bg-transparent border border-black hover:bg-red-800 hover:text-white transition-colors duration-300 text-black px-4 py-2">
-                                        Añadir al carrito
-                                    </button>
                                     <Link href={`/tienda/comprar/${product.id}?quantity=${quantity}`}>
                                         <button className="bg-transparent border border-black hover:bg-red-800 hover:text-white transition-colors duration-300 text-black px-4 py-2">
                                             Comprar ahora
@@ -108,13 +105,13 @@ export default function TiendaVerPage({ params }: { params: { id: string } }) {
                     </div>
                 </div>
                 <div className="flex flex-col items-start justify-start">
-                    <h2 className="text-2xl font-bold text-black pt-10 lg:text-left justify-start pl-20 ">Detalles de la obra</h2>
-                    <p className="text-lg text-gray-600 pt-10 text-center lg:text-left justify-start pl-20">{product.firma}</p>
-                    <p className="text-lg text-gray-600 pt-10 text-center lg:text-left justify-start pl-20">{product.impresion}</p>
-                    <p className="text-lg text-gray-600 pt-10 text-center lg:text-left justify-start pl-20">{product.autenticidad}</p>
-                    <p className="text-lg text-gray-600 pt-10 text-center lg:text-left justify-start pl-20">{product.envio}</p>
-                    <p className="text-lg text-gray-600 pt-10 text-center lg:text-left justify-start pl-20">{product.paquete}</p>
-                    <p className="text-lg text-gray-600 pt-10 text-center lg:text-left justify-start pl-20">{product.costo_envio}</p>
+                    <h2 className="text-2xl font-bold text-black pt-10 text-left lg:text-left justify-start lg:pl-20 ">Detalles de la obra</h2>
+                    <p className="text-lg text-gray-600 pt-10 text-left lg:text-left justify-start lg:pl-20">{product.firma}</p>
+                    <p className="text-lg text-gray-600 pt-10 text-left lg:text-left justify-start lg:pl-20">{product.impresion}</p>
+                    <p className="text-lg text-gray-600 pt-10 text-left lg:text-left justify-start lg:pl-20">{product.autenticidad}</p>
+                    <p className="text-lg text-gray-600 pt-10 text-left lg:text-left justify-start lg:pl-20">{product.envio}</p>
+                    <p className="text-lg text-gray-600 pt-10 text-left lg:text-left justify-start lg:pl-20">{product.paquete}</p>
+                    <p className="text-lg text-gray-600 pt-10 text-left lg:text-left justify-start lg:pl-20">{product.costo_envio}</p>
                 </div>
             </div>
         </div>

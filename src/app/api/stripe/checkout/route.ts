@@ -20,6 +20,11 @@ export async function POST(request: NextRequest) {
 
     const unitAmount = Math.round(parseFloat(priceMatch[1].replace(',', '')) * 100); // Convertir a centavos
 
+    // Calcular costo de envío según el método elegido en el formulario (no volver a preguntar en Stripe)
+    const shippingMethod = customerInfo?.metodoEnvio as string | undefined;
+    const shippingAmountMx = shippingMethod === 'express' ? 600 : shippingMethod === 'estandar' ? 300 : 0;
+    const shippingAmount = Math.round(shippingAmountMx * 100); // en centavos
+
     // Crear sesión de checkout de Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -30,20 +35,31 @@ export async function POST(request: NextRequest) {
             product_data: {
               name: product.name,
               description: product.description,
-              images: [`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'}${product.image}`],
+              images: [`${process.env.NEXT_PUBLIC_APP_URL || 'http://joseacoronam.com'}${product.image}`],
             },
             unit_amount: unitAmount,
           },
           quantity: quantity,
         },
+        ...(shippingAmount > 0
+          ? [
+              {
+                price_data: {
+                  currency: 'mxn',
+                  product_data: {
+                    name: `Envío (${shippingMethod === 'express' ? 'express' : shippingMethod === 'estandar' ? 'estándar' : 'estudio'})`,
+                  },
+                  unit_amount: shippingAmount,
+                },
+                quantity: 1,
+              },
+            ]
+          : []),
       ],
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'}/tienda/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'}/tienda/comprar/${productId}`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://joseacoronam.com'}/tienda/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://joseacoronam.com'}/tienda/comprar/${productId}`,
       customer_email: customerInfo.email,
-      shipping_address_collection: {
-        allowed_countries: ['MX', 'US', 'CA', 'ES'],
-      },
       metadata: {
         orderId: orderId,
         productId: productId.toString(),
@@ -52,49 +68,11 @@ export async function POST(request: NextRequest) {
         customerPhone: customerInfo.telefono,
         shippingMethod: customerInfo.metodoEnvio,
         comments: customerInfo.comentarios || '',
+        address: customerInfo.direccion || '',
+        city: customerInfo.ciudad || '',
+        postalCode: customerInfo.codigoPostal || '',
+        country: customerInfo.pais || '',
       },
-      shipping_options: [
-        {
-          shipping_rate_data: {
-            type: 'fixed_amount',
-            fixed_amount: {
-              amount: 1000, // $1 MXN en centavos
-              currency: 'mxn',
-            },
-            display_name: 'Envío estándar',
-            delivery_estimate: {
-              minimum: {
-                unit: 'week',
-                value: 3,
-              },
-              maximum: {
-                unit: 'week',
-                value: 4,
-              },
-            },
-          },
-        },
-        {
-          shipping_rate_data: {
-            type: 'fixed_amount',
-            fixed_amount: {
-              amount: 20000, // $200 MXN en centavos
-              currency: 'mxn',
-            },
-            display_name: 'Envío express',
-            delivery_estimate: {
-              minimum: {
-                unit: 'week',
-                value: 1,
-              },
-              maximum: {
-                unit: 'week',
-                value: 2,
-              },
-            },
-          },
-        },
-      ],
     });
 
     return NextResponse.json({ url: session.url });

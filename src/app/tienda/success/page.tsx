@@ -56,14 +56,45 @@ export default function SuccessPage() {
 
           {session && (
             <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left">
-              <h3 className="font-semibold text-gray-800 mb-2">Detalles de la compra:</h3>
-              <div className="space-y-1 text-sm text-gray-600">
-                <p><strong>ID de sesión:</strong> {session.id}</p>
-                <p><strong>Total pagado:</strong> ${(session.amount_total / 100).toFixed(2)} MXN</p>
-                <p><strong>Estado:</strong> {session.payment_status}</p>
-                {session.customer_details?.email && (
-                  <p><strong>Email:</strong> {session.customer_details.email}</p>
-                )}
+              <h3 className="font-semibold text-gray-800 mb-3">Resumen del pedido</h3>
+              <div className="space-y-2 text-sm text-gray-700">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <p><strong>ID de pedido:</strong> {session.metadata?.orderId || '—'}</p>
+                  <p><strong>Estado pago:</strong> {session.payment_status}</p>
+                  <p><strong>Email:</strong> {session.customer_details?.email || '—'}</p>
+                  <p><strong>Teléfono:</strong> {session.metadata?.customerPhone || '—'}</p>
+                </div>
+
+                <div className="border-t pt-3">
+                  <h4 className="font-semibold text-gray-800 mb-2">Cliente</h4>
+                  <p>{session.metadata?.customerName || '—'}</p>
+                </div>
+
+                <div className="border-t pt-3">
+                  <h4 className="font-semibold text-gray-800 mb-2">Envío</h4>
+                  <p><strong>Método:</strong> {session.metadata?.shippingMethod || '—'}</p>
+                  <p><strong>Dirección:</strong> {session.metadata?.address || '—'}</p>
+                  <p><strong>Ciudad:</strong> {session.metadata?.city || '—'}</p>
+                  <p><strong>Código Postal:</strong> {session.metadata?.postalCode || '—'}</p>
+                  <p><strong>País:</strong> {session.metadata?.country || '—'}</p>
+                </div>
+
+                <div className="border-t pt-3">
+                  <h4 className="font-semibold text-gray-800 mb-2">Artículos</h4>
+                  <div className="space-y-1">
+                    {session.line_items?.data?.map((item: any) => (
+                      <div key={item.id} className="flex justify-between text-sm">
+                        <span>{item.description} × {item.quantity}</span>
+                        <span>${(item.amount_subtotal / 100).toFixed(2)} MXN</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="border-t pt-3 flex justify-between font-semibold">
+                  <span>Total pagado</span>
+                  <span>${(session.amount_total / 100).toFixed(2)} MXN</span>
+                </div>
               </div>
             </div>
           )}
@@ -72,7 +103,6 @@ export default function SuccessPage() {
             <div className="bg-blue-50 p-4 rounded-lg">
               <h3 className="font-semibold text-blue-800 mb-2">¿Qué sigue?</h3>
               <ul className="text-sm text-blue-700 space-y-1 text-left">
-                <li>• Recibirás un email de confirmación con los detalles de tu compra</li>
                 <li>• Procesaremos tu pedido en 1-2 días hábiles</li>
                 <li>• Te enviaremos información de seguimiento cuando tu obra esté en camino</li>
                 <li>• El tiempo de entrega es de 3-4 semanas (estándar) o 1-2 semanas (express)</li>

@@ -183,7 +183,7 @@ export default function CompraPage() {
 
     const precioNumerico = parseFloat(product.price.replace(/[^0-9.]/g, ''));
     const subtotal = precioNumerico * quantity;
-    const envio = formData.metodoEnvio === 'express' ? 1 : 2;
+    const envio = formData.metodoEnvio === 'express' ? 600 : formData.metodoEnvio === 'estandar' ? 300 : formData.metodoEnvio === 'estudio' ? 0 : formData.metodoEnvio === 'prueba' ? 0 : 0;
     const total = subtotal + envio;
 
     return (
@@ -197,14 +197,14 @@ export default function CompraPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Formulario de compra */}
-                    <div className="bg-white p-6 shadow-2xl shadow-orange-800 h-fit">
-                        <h1 className="text-2xl font-bold text-gray-800 mb-6">Información de compra</h1>
+                    <div className="bg-white p-6 shadow-2xl shadow-gray-300 h-fit">
+                        <h1 className="text-3xl font-bold text-gray-800 mb-6">Información de compra</h1>
                         
                         <form onSubmit={handleSubmit} className="space-y-4">
                             {/* Información personal */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-black mb-1">
+                                    <label className="block text-2xl font-medium text-black mb-1">
                                         Nombre *
                                     </label>
                                     <input
@@ -221,7 +221,7 @@ export default function CompraPage() {
                                 </div>
                                 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-2xl font-medium text-gray-700 mb-1">
                                         Apellido *
                                     </label>
                                     <input
@@ -240,7 +240,7 @@ export default function CompraPage() {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Email *
+                                    <span className="text-2xl font-medium text-black mb-1">Email *</span>
                                 </label>
                                 <input
                                     type="email"
@@ -256,7 +256,7 @@ export default function CompraPage() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-2xl font-medium text-gray-700 mb-1">
                                     Teléfono *
                                 </label>
                                 <input
@@ -273,11 +273,11 @@ export default function CompraPage() {
                             </div>
 
                             {/* Dirección de envío */}
-                            <div className="border-t pt-4">
-                                <h3 className="text-lg font-semibold text-gray-800 mb-4">Dirección de envío</h3>
+                            <div className="border-t pt-[2rem]">
+                                <h3 className="text-3xl font-bold text-gray-800 mb-4">Dirección de envío</h3>
                                 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-2xl font-medium text-gray-700 mb-1">
                                         Dirección *
                                     </label>
                                     <input
@@ -295,7 +295,7 @@ export default function CompraPage() {
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-2xl font-medium text-gray-700 mb-1">
                                             Ciudad *
                                         </label>
                                         <input
@@ -312,7 +312,7 @@ export default function CompraPage() {
                                     </div>
                                     
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-2xl font-medium text-gray-700 mb-1">
                                             Código Postal *
                                         </label>
                                         <input
@@ -330,7 +330,7 @@ export default function CompraPage() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-2xl font-medium text-gray-700 mb-1">
                                         País
                                     </label>
                                     <select
@@ -340,30 +340,27 @@ export default function CompraPage() {
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                                     >
                                         <option value="México">México</option>
-                                        <option value="Estados Unidos">Estados Unidos</option>
-                                        <option value="Canadá">Canadá</option>
                                         <option value="España">España</option>
-                                        <option value="Otro">Otro</option>
                                     </select>
                                 </div>
                             </div>
 
                             {/* Método de envío */}
-                            <div className="border-t pt-4">
-                                <h3 className="text-lg font-semibold text-gray-800 mb-4">Método de envío</h3>
+                            <div className="border-t pt-[2rem]">
+                                <h3 className="text-3xl font-bold text-gray-800 mb-4">Método de envío</h3>
                                 <div className="space-y-2">
-                                    <label className="flex items-center text-black">
+                                <label className="flex items-center text-gray-500 text-2xl">
                                         <input
                                             type="radio"
                                             name="metodoEnvio"
-                                            value="estandar"
-                                            checked={formData.metodoEnvio === 'estandar'}
+                                            value="estudio"
+                                            checked={formData.metodoEnvio === 'estudio'}
                                             onChange={handleInputChange}
                                             className="mr-2 text-black"
                                         />
-                                        <span>Envío estándar (3-4 semanas) - $1 MXN</span>
+                                        <span>Recoger en estudio (Metepec, México) - $0 MXN</span>
                                     </label>
-                                    <label className="flex items-center text-black">
+                                    <label className="flex items-center text-gray-500 text-2xl">
                                         <input
                                             type="radio"
                                             name="metodoEnvio"
@@ -372,24 +369,21 @@ export default function CompraPage() {
                                             onChange={handleInputChange}
                                             className="mr-2"
                                         />
-                                        <span>Envío express (1-2 semanas) - $1 MXN</span>
+                                        <span>Envío express (1-2 semanas) - $600 MXN</span>
                                     </label>
-                                </div>
-                            </div>
+                                    <label className="flex items-center text-gray-500 text-2xl">
+                                        <input
+                                            type="radio"
+                                            name="metodoEnvio"
+                                            value="estandar"
+                                            checked={formData.metodoEnvio === 'estandar'}
+                                            onChange={handleInputChange}
+                                            className="mr-2"
+                                        />
+                                        <span>Envío estándar (3-4 semanas) - $300 MXN</span>
+                                    </label>
 
-                            {/* Comentarios */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Comentarios adicionales (opcional)
-                                </label>
-                                <textarea
-                                    name="comentarios"
-                                    value={formData.comentarios}
-                                    onChange={handleInputChange}
-                                    rows={3}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-                                    placeholder="Instrucciones especiales para la entrega..."
-                                />
+                                </div>
                             </div>
 
                             <button
@@ -403,46 +397,46 @@ export default function CompraPage() {
                     </div>
 
                     {/* Resumen del pedido */}
-                    <div className="bg-white p-6  shadow-lg shadow-orange-700 h-fit">
-                        <h2 className="text-xl font-bold text-gray-800 mb-4">Resumen del pedido</h2>
+                    <div className="bg-white p-6  shadow-lg shadow-gray-300 h-fit">
+                        <h2 className="text-3xl font-bold text-gray-800 mb-4">Resumen del pedido</h2>
                         
                         <div className="flex items-center space-x-4 mb-4">
-                            <div className="relative w-20 h-20">
+                            <div className="relative w-40 h-40">
                                 <Image
                                     src={product.image}
                                     alt={product.name}
                                     fill
-                                    className="object-cover rounded"
+                                    className="object-cover"
                                 />
                             </div>
                             <div className="flex-1">
-                                <h3 className="font-semibold text-black">{product.name}</h3>
-                                <p className="text-sm text-black">{product.description}</p>
-                                <p className="text-sm text-black">Tamaño: {product.size}</p>
-                                <p className="text-sm text-black">Cantidad: {quantity}</p>
+                                <h3 className="text-2xl font-bold text-black">{product.name}</h3>
+                                <p className="text-xl text-black">{product.description}</p>
+                                <p className="text-xl text-black">Tamaño: {product.size}</p>
+                                <p className="text-xl text-black">Cantidad: {quantity}</p>
                             </div>
                         </div>
 
                         <div className="border-t pt-4 space-y-2">
                             <div className="flex justify-between ">
-                                <span className="text-black">Subtotal:</span>
-                                <span className="text-black">${subtotal.toFixed(2)} MXN</span>
+                                <span className="text-xl text-black">Subtotal:</span>
+                                <span className="text-xl text-black">${subtotal.toFixed(2)} MXN</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-black">Envío ({formData.metodoEnvio === 'express' ? 'Express' : 'Estándar'}):</span>
-                                <span className="text-black">${envio} MXN</span>
+                                <span className="text-xl text-black">Envío ({formData.metodoEnvio === 'express' ? 'estandar' : 'estudio'}):</span>
+                                <span className="text-xl text-black">${envio} MXN</span>
                             </div>
                             <div className="border-t pt-2">
                                 <div className="flex justify-between font-bold text-lg">
-                                    <span className="text-black"> Total:</span>
-                                    <span className="text-black">${total.toFixed(2)} MXN</span>
+                                    <span className="text-xl text-black"> Total:</span>
+                                    <span className="text-black text-2xl">${total.toFixed(2)} MXN</span>
                                 </div>
                             </div>
                         </div>
 
                         <div className="mt-6 p-4 bg-gray-50 rounded-md">
-                            <h4 className="font-semibold text-gray-800 mb-2">Incluye:</h4>
-                            <ul className="text-sm text-gray-600 space-y-1">
+                            <h4 className="text-2xl font-bold text-gray-800 mb-2">Incluye:</h4>
+                            <ul className="text-xl text-gray-600 space-y-1">
                                 <li>• Certificado de autenticidad</li>
                                 <li>• Envío seguro en tubo de cartón</li>
                                 <li>• Envíos internacionales</li>
