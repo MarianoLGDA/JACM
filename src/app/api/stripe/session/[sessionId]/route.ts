@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { retrieveCheckoutSession } from '@/lib/stripe';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export async function GET(
   request: NextRequest,
@@ -16,7 +16,7 @@ export async function GET(
     const qty = parseInt(((session.metadata as any)?.quantity as string) || '1', 10);
     if (paymentStatus === 'paid' && orderId) {
       // Insertar/asegurar registro en la tabla 'orders_paid' con PK id = orderId
-      const { error } = await supabase
+      const { error } = await supabaseAdmin
         .from('orders_paid')
         .upsert({ id: orderId, status: 'pagado' }, { onConflict: 'id' });
 
@@ -25,7 +25,7 @@ export async function GET(
       }
 
       // Actualizar status del pedido
-      const { error: orderUpdateError } = await supabase
+      const { error: orderUpdateError } = await supabaseAdmin
         .from('orders')
         .update({ status: 'paid', stripe_session_id: session.id, stripe_payment_intent_id: (session.payment_intent as any)?.id || null })
         .eq('id', orderId);
@@ -35,7 +35,7 @@ export async function GET(
 
       // Decrementar inventario del producto si hay productId y qty válidos
       if (productId > 0 && qty > 0) {
-        const { error: inventoryError } = await supabase.rpc('decrement_product_quantity', {
+        const { error: inventoryError } = await supabaseAdmin.rpc('decrement_product_quantity', {
           p_product_id: productId,
           p_qty: qty,
         });

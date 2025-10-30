@@ -143,7 +143,7 @@ export async function getProductsWithInventory(): Promise<Product[]> {
     const inventory = await fetchInventoryMap()
     return products.map(p => ({
         ...p,
-        quantity: inventory[p.id] ?? p.quantity ?? 0,
+        quantity: inventory[p.id] ?? 0,
     }))
 }
 
@@ -151,5 +151,5 @@ export async function getProductByIdWithInventory(id: number): Promise<Product |
     const inventory = await fetchInventoryMap()
     const base = products.find(p => p.id === id)
     if (!base) return undefined
-    return { ...base, quantity: inventory[id] ?? base.quantity ?? 0 }
+    return { ...base, quantity: inventory[id] ?? 0 }
 }
