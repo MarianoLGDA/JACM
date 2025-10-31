@@ -64,7 +64,7 @@ export default function ContactoPage() {
         <div className="grid lg:grid-cols-2 gap-12">
           
           {/* Formulario de Contacto */}
-          <div className="space-y-8">
+          {/* <div className="space-y-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-6">
               Envíame un mensaje
             </h2>
@@ -153,7 +153,7 @@ export default function ContactoPage() {
                 </div>
               )}
             </form>
-          </div>
+          </div> */}
 
           {/* Información de Contacto */}
           <div className="space-y-8">
